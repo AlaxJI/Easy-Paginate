@@ -21,6 +21,8 @@
 
 (function ($) {
 
+    $.fn.easyPaginate = function (method) {
+
             var defaults,options;
             var step;
             var lower, upper;
@@ -62,8 +64,8 @@
                     }
                     ;
                 });
-                $('li', '#' + options.controls).removeClass(options.current);
-                $('li[data-index="' + page + '"]', '#' + options.controls).addClass(options.current);
+                $('li', '#' + options.paginationId).removeClass(options.current);
+                $('li[data-index="' + page + '"]', '#' + options.paginationId).addClass(options.current);
 
                 if (options.auto) {
                     if (options.clickstop && clicked) {
@@ -86,7 +88,9 @@
             };
             
             function setPagination(that){
-
+                
+                if (!options.controls) return;
+                
                 obj = that;
 
                 if (count > step) {
@@ -94,7 +98,7 @@
                     if ((count / step) > pages)
                         pages++;
 
-                    var ol = $('<ol id="' + options.controls + '"></ol>').insertAfter(obj);
+                    var ol = $('<ol id="' + options.paginationId + '"></ol>').insertAfter(obj);
 
                     if (options.nextprev) {
                         prev = $('<li class="prev">Назад</li>')
@@ -144,12 +148,11 @@
                                 });
                                 if (options.hidenextprev) next.hide();
                     };
-                    show();
                 }
             }
             
             function delPagination(that){
-                $('#' + that +' + #' + options.controls).remove();
+                $('#' + that +' + #' + options.paginationId).remove();
             }
     var methods = {
         init: function (settings) {
@@ -163,15 +166,22 @@
                 loop: false,
                 pause: 4000,
                 clickstop: true,
-                controls: 'pagination',
+                paginationId: 'pagination',
                 current: 'current',
-                randomstart: false
+                randomstart: false,
+                nexttext:'Далее',
+                prevtext:'Назад',
+                controls:true
             };
 
             options = $.extend(defaults, settings);
+            if (options.controls === false){
+                options.nextprev = false;
+            }
             step = options.step;
             children = $(this).children();
             count = children.length;
+            console.log(pages);
             pages = Math.floor(count/step);
             page = (options.randomstart) ? Math.floor(Math.random() * pages) + 1 : 1;
             clicked = false;            
@@ -179,6 +189,7 @@
             return this.each(function () {
 
                 setPagination(this);
+                show();
                 
             });
         },
@@ -196,6 +207,7 @@
             return this.each(function () {
                 delPagination($(this).attr('id'));
                 setPagination(this);
+                show();
                 
             });
             
@@ -208,9 +220,6 @@
             });
         }
     };
-
-    $.fn.easyPaginate = function (method) {
-
 
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
