@@ -1,5 +1,5 @@
 /*
- * 	Easy Paginate 1.0b - jQuery plugin
+ * 	Easy Paginate 1.0.2 - jQuery plugin
  * 	Updated by Alexei Dubrovski 2017-04-05
  * 	
  * 	based on
@@ -42,23 +42,24 @@
                     var child = $(this);
                     child.hide();
                     if (i >= lower && i < upper) {
+                        child.show();
                         setTimeout(function () {
-                            child.fadeIn('fast')
+                            child.show()
                         }, (i - (Math.floor(i / step) * step)) * options.delay);
                     }
                     if (options.nextprev) {
                         if (upper >= count) {
                             if (options.hidenextprev)
-                                next.fadeOut('fast');
+                                next.hide();
                         } else {
-                                next.fadeIn('fast');
+                                next.show();
                         }
                         ;
                         if (lower >= 1) {
-                                prev.fadeIn('fast');
+                                prev.show();
                         } else {
                             if (options.hidenextprev)
-                                prev.fadeOut('fast');
+                                prev.hide();
                         }
                         ;
                     }
