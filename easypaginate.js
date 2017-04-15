@@ -1,5 +1,5 @@
 /*
- * 	Easy Paginate 1.0.2 - jQuery plugin
+ * 	Easy Paginate 1.0.3 - jQuery plugin
  * 	Updated by Alexei Dubrovski 2017-04-05
  * 	
  * 	based on
@@ -24,7 +24,7 @@
     $.fn.easyPaginate = function (method) {
 
             var defaults,options;
-            var step;
+            var step, bystep;
             var lower, upper;
             var children;
             var count;
@@ -36,30 +36,29 @@
 
             function show() {
                 clearTimeout(timeout);
-                lower = ((page - 1) * step);
+                lower = ((page - 1) * bystep);
                 upper = lower + step;
                 $(children).each(function (i) {
                     var child = $(this);
                     child.hide();
                     if (i >= lower && i < upper) {
-                        child.show();
                         setTimeout(function () {
-                            child.show()
+                            child.fadeIn('fast')
                         }, (i - (Math.floor(i / step) * step)) * options.delay);
                     }
                     if (options.nextprev) {
                         if (upper >= count) {
                             if (options.hidenextprev)
-                                next.hide();
+                                next.fadeOut('fast');
                         } else {
-                                next.show();
+                                next.fadeIn('fast');
                         }
                         ;
                         if (lower >= 1) {
-                                prev.show();
+                                prev.fadeIn('fast');
                         } else {
                             if (options.hidenextprev)
-                                prev.hide();
+                                prev.fadeOut('fast');
                         }
                         ;
                     }
@@ -102,7 +101,7 @@
                     var ol = $('<ol id="' + options.paginationId + '"></ol>').insertAfter(obj);
 
                     if (options.nextprev) {
-                        prev = $('<li class="prev">Назад</li>')
+                        prev = $('<li class="prev">'+options.prevtext+'</li>')
                                 .appendTo(ol)
                                 .click(function () {
                                     clicked = true;
@@ -133,7 +132,7 @@
                     };
 
                     if (options.nextprev) {
-                        next = $('<li class="next">Дальше</li>')
+                        next = $('<li class="next">'+options.nexttext+'</li>')
                                 .appendTo(ol)
                                 .click(function () {
                                     clicked = true;
@@ -159,6 +158,7 @@
         init: function (settings) {
             defaults = {
                 step: 4,
+                byone:false,
                 delay: 100,
                 numeric: true,
                 nextprev: true,
@@ -179,11 +179,19 @@
             if (options.controls === false){
                 options.nextprev = false;
             }
+            if (options.byone){
+                options.loop = false;
+                options.numeric=false;
+                bystep = 1;
+            } else {
+                bystep = step;
+            }
             step = options.step;
             children = $(this).children();
             count = children.length;
             console.log(pages);
-            pages = Math.floor(count/step);
+            pages = Math.floor(count/bystep);
+            console.log(pages);
             page = (options.randomstart) ? Math.floor(Math.random() * pages) + 1 : 1;
             clicked = false;            
 
