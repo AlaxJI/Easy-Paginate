@@ -1,5 +1,5 @@
 /*
- * 	Easy Paginate 1.0.3 - jQuery plugin
+ * 	Easy Paginate 1.0.4 - jQuery plugin
  * 	Updated by Alexei Dubrovski 2017-04-05
  * 	
  * 	based on
@@ -184,7 +184,7 @@
                 options.numeric=false;
                 bystep = 1;
             } else {
-                bystep = step;
+                bystep = options.step;
             }
             step = options.step;
             children = $(this).children();
