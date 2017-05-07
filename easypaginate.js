@@ -1,6 +1,6 @@
 /*
- * 	Easy Paginate 1.0.4 - jQuery plugin
- * 	Updated by Alexei Dubrovski 2017-04-05
+ * 	Easy Paginate 1.0.5 - jQuery plugin
+ * 	Updated by Alexei Dubrovski 2017-05-07
  * 	
  * 	based on
  * 	
