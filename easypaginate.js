@@ -43,7 +43,7 @@
                     child.hide();
                     if (i >= lower && i < upper) {
                         setTimeout(function () {
-                            child.fadeIn('fast')
+                            child.fadeIn('fast');
                         }, (i - (Math.floor(i / step) * step)) * options.delay);
                     }
                     if (options.nextprev) {
@@ -148,6 +148,8 @@
                                 });
                                 if (options.hidenextprev) next.hide();
                     };
+                } else {
+                    options.nextprev = false;
                 }
             }
             
@@ -235,7 +237,7 @@
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('Метод с именем ' + method + ' не существует для jQuery.tooltip');
+            $.error('Метод с именем ' + method + ' не существует для jQuery.easyPaginate');
         }
 
     };
